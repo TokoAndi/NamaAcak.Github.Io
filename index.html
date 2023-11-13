@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagi Nama ke Grup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 80vh; /* Batasi tinggi kontainer */
+            overflow-y: auto; /* Tambahkan scrollbar jika kontennya lebih besar dari kontainer */
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <label for="namaInput">Masukkan Nama (pisahkan dengan koma):</label>
+        <input type="text" id="namaInput" placeholder="Contoh: John, Jane, Bob">
+
+        <label for="jumlahGrupInput">Jumlah Grup:</label>
+        <input type="number" id="jumlahGrupInput" placeholder="Masukkan jumlah grup">
+
+        <button onclick="bagiNama()">Bagi Nama ke Grup</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function acakArray(array) {
+            // Menggunakan algoritma Fisher-Yates untuk mengacak array
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function bagiNama() {
+            var namaInput = document.getElementById('namaInput').value;
+            var jumlahGrupInput = document.getElementById('jumlahGrupInput').value;
+            var resultDiv = document.getElementById('result');
+
+            // Validasi input
+            if (!namaInput || !jumlahGrupInput) {
+                resultDiv.innerHTML = '<p style="color: red;">Harap isi kedua kotak input!</p>';
+                return;
+            }
+
+            var namaArray = namaInput.split(',').map(function (nama) {
+                return nama.trim();
+            });
+
+            var jumlahGrup = parseInt(jumlahGrupInput);
+
+            // Validasi jumlah grup tidak melebihi jumlah nama
+            if (jumlahGrup > namaArray.length) {
+                resultDiv.innerHTML = '<p style="color: red;">Grup tidak boleh melebihi jumlah nama!</p>';
+                return;
+            }
+
+            // Mengacak urutan nama sebelum pembagian
+            acakArray(namaArray);
+
+            var grup = new Array(jumlahGrup).fill(null).map(() => []);
+
+            for (var i = 0; i < namaArray.length; i++) {
+                var indexGrup = i % jumlahGrup;
+                grup[indexGrup].push(namaArray[i]);
+            }
+
+            // Menampilkan hasil pembagian nama di bawah kotak input
+            resultDiv.innerHTML = '<p>Hasil Pembagian Nama:</p>';
+            grup.forEach(function (namaGrup, index) {
+                resultDiv.innerHTML += `<p>Grup ${index + 1}:</p><pre>${namaGrup.map(nama => `"${nama}"`).join(', ')}</pre>`;
+            });
+        }
+    </script>
+</body>
+</html>
