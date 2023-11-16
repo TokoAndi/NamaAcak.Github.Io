@@ -7,23 +7,36 @@
     <title>Bagi Nama ke Grup</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden; /* Menghilangkan scrollbar yang tidak diinginkan */
+    }
 
-        #container {
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-height: 80vh; /* Batasi tinggi kontainer */
-            overflow-y: auto; /* Tambahkan scrollbar jika kontennya lebih besar dari kontainer */
-        }
+    #video-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Menyesuaikan ukuran video agar selalu mengisi layar */
+    }
+
+    #container {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-height: 80vh; /* Batasi tinggi kontainer */
+        overflow-y: auto; /* Tambahkan scrollbar jika kontennya lebih besar dari kontainer */
+        background: rgba(255, 255, 255, 0.8); /* Warna latar belakang kontainer */
+    }
 
         label {
             display: block;
@@ -50,6 +63,11 @@
     </style>
 </head>
 <body>
+    <video id="video-background" autoplay muted loop>
+        <source src="video.mp4" type="video/mp4">
+        <!-- Tambahkan format video lainnya jika diperlukan -->
+        Your browser does not support the video tag.
+    </video>
     <div id="container">
         <label for="namaInput">Masukkan Nama (pisahkan dengan koma):</label>
         <input type="text" id="namaInput" placeholder="Contoh: John, Jane, Bob">
@@ -110,6 +128,8 @@
                 resultDiv.innerHTML += `<p>Grup ${index + 1}:</p><pre>${namaGrup.map(nama => `"${nama}"`).join(', ')}</pre>`;
             });
         }
+        var video = document.getElementById('video-background');
+        video.style.opacity = 0.5;
     </script>
 </body>
 </html>
