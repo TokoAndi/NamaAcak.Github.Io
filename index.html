@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="download.jpg" type="image/png" sizes="16x16">
     <title>Bagi Nama ke Grup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css">
     <style>
         body {
         font-family: Arial, sans-serif;
@@ -37,6 +38,14 @@
         overflow-y: auto; /* Tambahkan scrollbar jika kontennya lebih besar dari kontainer */
         background: rgba(255, 255, 255, 0.8); /* Warna latar belakang kontainer */
     }
+        #volume-icon {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #333;
+            cursor: pointer;
+            z-index: 2;
+        }
 
         label {
             display: block;
@@ -79,7 +88,11 @@
 
         <div id="result"></div>
     </div>
+    <div id="volume-icon" onclick="toggleMute()">
+        <i id="volume-icon-i" data-feather="volume-2"></i>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script>
         function acakArray(array) {
             // Menggunakan algoritma Fisher-Yates untuk mengacak array
@@ -130,6 +143,23 @@
         }
         var video = document.getElementById('video-background');
         video.style.opacity = 0.5;
+        
+        feather.replace(); // Menggantikan ikon dengan Feather Icons
+
+        var video = document.getElementById('video-background');
+        var volumeIcon = document.getElementById('volume-icon-i');
+
+        function toggleMute() {
+            video.muted = !video.muted;
+
+            if (video.muted) {
+                volumeIcon.setAttribute('data-feather', 'volume-x');
+            } else {
+                volumeIcon.setAttribute('data-feather', 'volume-2');
+            }
+
+            feather.replace(); // Memperbarui ikon setelah perubahan
+        }
     </script>
 </body>
 </html>
