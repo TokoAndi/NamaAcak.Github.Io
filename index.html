@@ -135,12 +135,31 @@
                 grup[indexGrup].push(namaArray[i]);
             }
 
-            // Menampilkan hasil pembagian nama di bawah kotak input
             resultDiv.innerHTML = '<p>Hasil Pembagian Nama:</p>';
-            grup.forEach(function (namaGrup, index) {
-                resultDiv.innerHTML += `<p>Grup ${index + 1}:</p><pre>${namaGrup.map(nama => `"${nama}"`).join(', ')}</pre>`;
-            });
+        grup.forEach(function (namaGrup, index) {
+            var namaGrupString = namaGrup.map(nama => `"${nama}"`).join(', ');
+            resultDiv.innerHTML += `<p>Grup ${index + 1}:</p><pre>${namaGrupString}</pre>`;
+
+            // Membaca nama-nama grup dengan TTS
+            bacaDenganTTS(`Grup ${index + 1}: ${namaGrupString}`);
+        });
+    }
+
+    function bacaDenganTTS(teks) {
+        // Memeriksa apakah browser mendukung SpeechSynthesis
+        if ('speechSynthesis' in window) {
+            // Membuat objek SpeechSynthesisUtterance
+            var ucapkan = new SpeechSynthesisUtterance(teks);
+
+            // Menggunakan suara default, bisa disesuaikan jika diperlukan
+            // ucapkan.voice = ...;
+
+            // Memulai pembacaan
+            speechSynthesis.speak(ucapkan);
+        } else {
+            console.error('Browser tidak mendukung Text-to-Speech.');
         }
+    }
         var video = document.getElementById('video-background');
         video.style.opacity = 0.5;
         
